@@ -21,7 +21,7 @@ const createItem = (req, res) => {
     });
 }
 
-/* const getItems = (req, res) => {
+const getItems = (req, res) => {
   ClothingItem.find({})
     .then((items) => {
       res.status(200).send(items)
@@ -30,9 +30,9 @@ const createItem = (req, res) => {
       console.error(err);
       res.status(500).send({ message: err.message });
       });
-} */
+}
 
 module.exports = {
   createItem,
-  //getItems,
+  getItems,
 };
