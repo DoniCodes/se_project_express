@@ -32,7 +32,30 @@ const getItems = (req, res) => {
       });
 }
 
+const updateItem = (req, res) => {
+  const { itemId } = req.params;
+  const { imageUrl } = req.body;
+
+  ClothingItem.findByIdAndUpdate(itemId, {$set: { imageUrl }}).orFail()
+    .then((item) => {
+      if (!item) {
+        return res.status(404).send({ message: 'Item not found' });
+      }
+      res.status(200).send({data: item});
+    })
+    .catch((err) => {
+      console.error(err);
+      if (err.name === 'ValidationError') {
+        return res.status(400).send({ message: err.message });
+      } else if (err.name === 'CastError') {
+        return res.status(400).send({ message: 'Invalid item ID' });
+      }
+      res.status(500).send({ message: err.message });
+    });
+}
+
 module.exports = {
   createItem,
   getItems,
+  updateItem,
 };
