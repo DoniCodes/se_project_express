@@ -54,8 +54,29 @@ const updateItem = (req, res) => {
     });
 }
 
+const deleteItem = (req, res) => {
+  const { itemId } = req.params;
+  console.log(itemId);
+
+  ClothingItem.findByIdAndDelete(itemId).orFail()
+    .then((item) => {
+      if (!item) {
+        return res.status(404).send({ message: 'Item not found' });
+      }
+      res.status(204).send({});
+    })
+    .catch((err) => {
+      console.error(err);
+      if (err.name === 'CastError') {
+        return res.status(400).send({ message: 'Invalid item ID' });
+      }
+      res.status(500).send({ message: err.message });
+    });
+}
+
 module.exports = {
   createItem,
   getItems,
   updateItem,
+  deleteItem,
 };
