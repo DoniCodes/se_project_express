@@ -74,6 +74,11 @@ const deleteItem = (req, res) => {
     });
 }
 
+module.exports.createItem = (req, res) => {
+  console.log(req.user._id);
+
+}
+
 module.exports = {
   createItem,
   getItems,

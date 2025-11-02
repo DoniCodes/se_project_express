@@ -11,6 +11,13 @@ app.use(express.json());
 app.use("/", mainRouter);
 app.use('/', routes);
 
+app.use((req, res, next) => {
+  req.user = {
+    _id: '68fffcb7f3b6a3b7448a41c5'// paste the _id of the test user created in the previous step
+  };
+  next();
+});
+
 
 mongoose.connect('mongodb://127.0.0.1:27017/wtwr_db')
 .then(() => {
