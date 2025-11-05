@@ -1,4 +1,4 @@
-//File for status code errors
+// File for status code errors
 
 const BAD_REQUEST_ERROR_CODE = 400;
 const NOT_FOUND_ERROR_CODE = 404;

@@ -31,7 +31,7 @@ const getItems = (req, res) => {
     })
     .catch((err) => {
       console.error(err);
-      res.status(SERVER_ERROR_CODE).send({ message: "Error in getItems" });
+       res.status(SERVER_ERROR_CODE).send({ message: "Error in getItems" });
       });
 }
 
@@ -74,11 +74,13 @@ const likeItem = (req, res) => {
     .catch((err) => {
       console.error(err);
       if (err.name === 'CastError') {
-        return res.status(BAD_REQUEST_ERROR_CODE).send({ message: 'Invalid item ID' });
+         res.status(BAD_REQUEST_ERROR_CODE).send({ message: 'Invalid item ID' });
       } else if (err.name === 'DocumentNotFoundError') {
-        return res.status(NOT_FOUND_ERROR_CODE).send({ message: 'Item not found' });
+         res.status(NOT_FOUND_ERROR_CODE).send({ message: 'Item not found' });
+      } else {
+        return res.status(SERVER_ERROR_CODE).send({ message: "Error in likeItem" });
       }
-      res.status(SERVER_ERROR_CODE).send({ message: "Error in likeItem" });
+
     });
 }
 
@@ -99,11 +101,12 @@ const dislikeItem = (req, res) => {
     .catch((err) => {
       console.error(err);
       if (err.name === 'CastError') {
-        return res.status(BAD_REQUEST_ERROR_CODE).send({ message: 'Invalid item ID' });
+         res.status(BAD_REQUEST_ERROR_CODE).send({ message: 'Invalid item ID' });
       } else if (err.name === 'DocumentNotFoundError') {
-        return res.status(NOT_FOUND_ERROR_CODE).send({ message: 'Item not found' });
+         res.status(NOT_FOUND_ERROR_CODE).send({ message: 'Item not found' });
+      } else {
+      return res.status(SERVER_ERROR_CODE).send({ message: "Error in dislikeItem" });
       }
-      res.status(SERVER_ERROR_CODE).send({ message: "Error in dislikeItem" });
     });
 }
 
@@ -121,11 +124,12 @@ const deleteItem = (req, res) => {
     .catch((err) => {
       console.error(err);
       if (err.name === 'CastError') {
-        return res.status(BAD_REQUEST_ERROR_CODE).send({ message: 'Invalid item ID' });
+         res.status(BAD_REQUEST_ERROR_CODE).send({ message: 'Invalid item ID' });
       } else if (err.name === 'DocumentNotFoundError') {
         return res.status(NOT_FOUND_ERROR_CODE).send({ message: 'Item not found' });
+      } else {
+      return res.status(SERVER_ERROR_CODE).send({ message: "Error in deleteItem" });
       }
-      res.status(SERVER_ERROR_CODE).send({ message: "Error in deleteItem" });
     });
 }
 
