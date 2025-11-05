@@ -5,10 +5,11 @@ const {BAD_REQUEST_ERROR_CODE, SERVER_ERROR_CODE, NOT_FOUND_ERROR_CODE} = requir
 const createItem = (req, res) => {
   console.log(req);
   console.log(req.body);
+  console.log(req.user._id);
 
   const { name, weather, imageUrl } = req.body;
 
-  ClothingItem.create({ name, weather, imageUrl })
+  return ClothingItem.create({ name, weather, imageUrl, owner: req.user._id })
     .then((item) => {
       console.log(item);
       res.status(201).send({data: item});
@@ -99,6 +100,8 @@ const dislikeItem = (req, res) => {
       console.error(err);
       if (err.name === 'CastError') {
         return res.status(BAD_REQUEST_ERROR_CODE).send({ message: 'Invalid item ID' });
+      } else if (err.name === 'DocumentNotFoundError') {
+        return res.status(NOT_FOUND_ERROR_CODE).send({ message: 'Item not found' });
       }
       res.status(SERVER_ERROR_CODE).send({ message: "Error in dislikeItem" });
     });
@@ -113,7 +116,7 @@ const deleteItem = (req, res) => {
       if (!item) {
         return res.status(NOT_FOUND_ERROR_CODE).send({ message: 'Item not found' });
       }
-      res.status(204).send({});
+      res.status(200).send({});
     })
     .catch((err) => {
       console.error(err);
@@ -125,22 +128,6 @@ const deleteItem = (req, res) => {
       res.status(SERVER_ERROR_CODE).send({ message: "Error in deleteItem" });
     });
 }
-
-/* module.exports.createItem = (req, res) => {
-  console.log(req.user_id);
-};
-
-module.exports.likeItem = (req, res) => ClothingItem.findByIdAndUpdate(
-  req.params.itemId,
-  { $addToSet: { likes: req.user._id } }, // add _id to the array if it's not there yet
-  { new: true },
-);
-
-module.exports.dislikeItem = (req, res) => ClothingItem.findByIdAndUpdate(
-  req.params.itemId,
-  { $pull: { likes: req.user._id } }, // remove _id from the array
-  { new: true },
-) */
 
 module.exports = {
   createItem,
