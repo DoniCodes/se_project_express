@@ -39,8 +39,8 @@ const getUser = (req, res) => {
       console.error(err);
       if (err.name === 'DocumentNotFoundError') {
         return res.status(NOT_FOUND_ERROR_CODE).send({ message: 'User not found' });
-      } else if (err.name === 'CastError') {
-        return res.status(NOT_FOUND_ERROR_CODE).send({ message: 'Invalid user ID' });
+      } else if  (err.name === 'CastError') {
+        return res.status(BAD_REQUEST_ERROR_CODE).send({ message: 'Invalid user ID' });
     }
       res.status(SERVER_ERROR_CODE).send({ message: err.message });
     });
