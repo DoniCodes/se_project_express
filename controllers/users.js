@@ -8,7 +8,7 @@ const getUsers = (req, res) => {
     })
     .catch((err) => {
       console.error(err);
-      res.status(SERVER_ERROR_CODE).send({ message: err.message });
+       res.status(SERVER_ERROR_CODE).send({ message: err.message });
       });
 }
 
@@ -22,9 +22,9 @@ const createUser = (req, res) => {
     .catch((err) => {
       console.error(err);
       if (err.name === 'ValidationError') {
-        return res.status(BAD_REQUEST_ERROR_CODE).send({ message: err.message });
+         res.status(BAD_REQUEST_ERROR_CODE).send({ message: err.message });
       } else{
-        return res.status(SERVER_ERROR_CODE).send({ message: err.message });
+         res.status(SERVER_ERROR_CODE).send({ message: err.message });
       }
     });
 }
@@ -41,8 +41,10 @@ const getUser = (req, res) => {
         return res.status(NOT_FOUND_ERROR_CODE).send({ message: 'User not found' });
       } else if  (err.name === 'CastError') {
         return res.status(BAD_REQUEST_ERROR_CODE).send({ message: 'Invalid user ID' });
+    } else{
+      return res.status(SERVER_ERROR_CODE).send({ message: err.message });
     }
-      res.status(SERVER_ERROR_CODE).send({ message: err.message });
+
     });
 }
 
